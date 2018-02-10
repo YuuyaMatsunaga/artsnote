@@ -1,0 +1,27 @@
+<ul class="media-list">
+  <% artbooks.each do |artbook| %>
+    <% user = artbook.user %>
+    <li class="media">
+      <div class="media-left">
+        <img class="media-object img-rounded" src="<%= gravatar_url(user, options = { size: 50 }) %>" alt="">
+      </div>
+      <div class="media-body">
+        <div>
+          <%= link_to user.name, user_path(user) %> <span class="text-muted">posted at <%= artbook.created_at %></span>
+        </div>
+        <div>
+          <p><%= artbook.content %></p>
+        </div>
+        <% if artbook.image? %>
+          <%= image_tag artbook.image.thumb.url %>
+        <% end %>
+        <div>
+          <% if current_user == artbook.user %>
+            <%= link_to "Delete", artbook, method: :delete, data: { confirm: "You sure?" }, class: 'btn btn-danger btn-xs' %>
+          <% end %>
+        </div>
+      </div>
+    </li>
+  <% end %>
+  <%= paginate artbooks %>
+</ul>
